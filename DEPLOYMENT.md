@@ -1,34 +1,34 @@
-# Deployment
+# Развёртывание проекта
 
-The workflow in `.github/workflows/deploy.yml` deploys both applications after each push to `main`.
+Workflow в `.github/workflows/deploy.yml` автоматически развёртывает фронтенд и бэкенд после каждого push в ветку `main`.
 
-## GitHub Actions secrets
+## Секреты GitHub Actions
 
-Add these repository secrets in **Settings → Secrets and variables → Actions**:
+В репозитории GitHub откройте **Settings → Secrets and variables → Actions** и добавьте следующие секреты:
 
-| Secret | Value |
+| Секрет | Значение |
 | --- | --- |
-| `SERVER_HOST` | Server IP address or domain name |
-| `SERVER_USER` | SSH user that owns the application directory |
-| `SERVER_PORT` | SSH port, usually `22` |
-| `SSH_PRIVATE_KEY` | Private SSH key for `SERVER_USER` |
-| `SERVER_APP_PATH` | Absolute path to the repository on the server, for example `/home/news/project-news` |
+| `SERVER_HOST` | IP-адрес или домен сервера |
+| `SERVER_USER` | Пользователь SSH, которому принадлежит каталог приложения |
+| `SERVER_PORT` | Порт SSH, обычно `22` |
+| `SSH_PRIVATE_KEY` | Приватный SSH-ключ пользователя `SERVER_USER` |
+| `SERVER_APP_PATH` | Абсолютный путь к репозиторию на сервере, например `/home/news/project-news` |
 
-## One-time server setup
+## Первоначальная настройка сервера
 
-Clone this repository into `SERVER_APP_PATH`, install Node.js 22 and PM2 globally, then create environment files that are not committed to Git:
+Клонируйте репозиторий в каталог `SERVER_APP_PATH`, установите Node.js 22 и PM2 глобально. Затем создайте файлы окружения — они не должны попадать в Git:
 
 ```bash
 cd /home/news/project-news/khoam-backend
 cp .env.example .env
 ```
 
-Set production values in `khoam-backend/.env`, including `MONGODB_URI`, a long `JWT_SECRET`, `NODE_ENV=production`, `PORT=5000`, and the public frontend address in `FRONTEND_URL`.
+В `khoam-backend/.env` задайте production-значения, включая `MONGODB_URI`, длинный `JWT_SECRET`, `NODE_ENV=production`, `PORT=5000` и публичный адрес фронтенда в `FRONTEND_URL`.
 
-Create `khoam-frontend/.env.local` with the public API address visible from browsers:
+Создайте `khoam-frontend/.env.local` с публичным адресом API, который будет доступен из браузера:
 
 ```env
 NEXT_PUBLIC_API_URL=https://api.example.com/api
 ```
 
-Use Nginx or another reverse proxy to expose the frontend on port 3000 and the backend on port 5000. The proxy should route the API domain to port 5000 and the site domain to port 3000.
+Для публикации приложения используйте Nginx или другой reverse proxy. Он должен направлять запросы API-домена на порт `5000`, а запросы основного домена сайта — на порт `3000`.
