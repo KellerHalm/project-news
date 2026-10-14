@@ -1,0 +1,24 @@
+---
+description: Next.js App Router, RSC vs client, auth-guard
+globs: src/app/**/*.{ts,tsx},src/**/*.tsx
+alwaysApply: false
+---
+
+# Next.js / React
+
+- Интерактивный UI — `'use client'`.
+- Server Components — в основном layout, metadata и редкий SEO-fetch (`generateMetadata`).
+- Страницы каталога/профиля и т.п. обычно клиентские + TanStack Query после гидрации.
+- Не тащи данные через RSC «на всякий случай», если соседние страницы уже на Query.
+
+## UX-паттерны
+
+- Десктоп vs мобайл: breakpoint hooks (`useIsMobile` <640, `useIsTablet` <1024).
+- Оверлеи: `ResponsiveDrawer` (desktop overlay / mobile drawer), auth — модалка на desktop, роут на mobile.
+- Состояния: скелетоны → `EmptyState` → контент; глобальный лоадер сессии — `AppLoader`.
+
+## Auth / защита
+
+- Токен в cookie; Axios Bearer interceptor; 401 → logout (+ редирект с `/profile*`).
+- Edge/proxy guard: неавторизованный `/profile*` → `/`; авторизованный `/auth*` → `/`.
+- Не хардкодь пути — используй `routes` / `Endpoints` из `shared/constants`.

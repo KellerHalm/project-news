@@ -1,0 +1,17 @@
+---
+description: Tailwind + SCSS modules + токены и Typography
+globs: src/**/*.{tsx,scss,css}
+alwaysApply: false
+---
+
+# Styling
+
+- **Tailwind** — layout, spacing, responsive (`pt-5 lg:pt-6 px-5`).
+- **SCSS modules** — сложная визуальная разметка компонента; файл рядом: `name.module.scss`.
+- Классы склеивай через `cn(...)` (`clsx` + `tailwind-merge`).
+- Цвета/токены — CSS-переменные из globals (`--accent-*`, `--neutral-*`, …), не хардкодь палитру.
+- Текст — компонент `Typography` с вариантами `.h1`…`.caption2`, не плоди произвольные font-size.
+- UI-примитивы (Button и т.д.) — CVA-variants в `shared/ui`, в духе shadcn.
+- Иконки: SVG в `shared/icons/{16,20,24,…}/`, импорт как React-компонент `*Icon`.
+- Media queries в SCSS зеркаль hooks: `width < 1024px`, `width < 640px`.
+- Не вводи карточный «AI-дизайн» и чужие темы — держись текущих токенов и паттернов.

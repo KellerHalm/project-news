@@ -1,0 +1,37 @@
+---
+description: Axios, TanStack Query, Zustand и обработка ошибок
+globs: src/**/{api,model,core,services,store,libs}/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Data layer
+
+## HTTP
+
+- Ходи в API только через инстанс из `@/shared/core` (не сырой `axios`).
+- URL собирай хелперами (`createUrlWithParams`) и константами `Endpoints`.
+
+## TanStack Query
+
+Всегда пара: async-функция + factory options:
+
+```ts
+export async function getProduct(id: number): Promise<ProductEntity> { ... }
+
+export const getProductQueryOptions = (id: number) =>
+  queryOptions({
+    queryKey: ['product', id],
+    queryFn: () => getProduct(id),
+    enabled: id > 0
+  });
+```
+
+- Ключи — массивы строк/id: `['product', id]`, `['favorites']`.
+- Списки: `useInfiniteQuery` + intersection-observer.
+- После мутаций: `invalidateQueries` или точечный patch кэша (как в favorites).
+- Ошибки Query/мутаций → `errorNotification(error)`; успех → `toast.success('…')` по-русски.
+
+## Zustand
+
+- Только сессия / UI-chrome (user, auth popup, fullscreen media).
+- Серверные данные — в Query, не дублируй в store.

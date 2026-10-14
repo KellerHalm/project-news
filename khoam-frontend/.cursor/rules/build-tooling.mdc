@@ -1,0 +1,12 @@
+---
+description: Скрипты сборки, env и git hooks
+alwaysApply: true
+---
+
+# Build & tooling
+
+- Node **22+**, npm **10+** (в CI может быть Node 24).
+- Скрипты: `npm run dev` (Turbopack), `build`, `start`, `lint`.
+- Production Next: `output: 'standalone'`.
+- Env: `NEXT_PUBLIC_*` из `.env` / CI; не коммить секреты — ориентир `.env.example`.
+- Husky + lint-staged: на commit — `eslint --fix` + Prettier.

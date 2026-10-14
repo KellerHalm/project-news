@@ -1,0 +1,793 @@
+{
+  "info": {
+    "name": "News Backend - Local",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000/api"
+    },
+    {
+      "key": "userToken",
+      "value": ""
+    },
+    {
+      "key": "editorToken",
+      "value": ""
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "categoryId",
+      "value": ""
+    },
+    {
+      "key": "newsId",
+      "value": ""
+    },
+    {
+      "key": "newsSlug",
+      "value": ""
+    },
+    {
+      "key": "editorId",
+      "value": ""
+    },
+    {
+      "key": "mediaId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "00 Health",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/health",
+              "protocol": "http",
+              "host": [
+                "localhost:5000"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 Auth",
+      "item": [
+        {
+          "name": "Register user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/register"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John User\",\n  \"email\": \"john@example.com\",\n  \"password\": \"Password123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Admin12345!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login editor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"editor@example.com\",\n  \"password\": \"REPLACE_WITH_EDITOR_PASSWORD\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Current user",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Public News",
+      "item": [
+        {
+          "name": "List news",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/news",
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "12"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter by category",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/news",
+              "query": [
+                {
+                  "key": "category",
+                  "value": "technology"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "12"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get news by slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/news/{{newsSlug}}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 User",
+      "item": [
+        {
+          "name": "Save first news",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/news/{{newsId}}/save"
+            }
+          }
+        },
+        {
+          "name": "Saved news",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/news/saved"
+            }
+          }
+        },
+        {
+          "name": "Unsave news",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/news/{{newsId}}/save"
+            }
+          }
+        },
+        {
+          "name": "Update my profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Updated\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete my account",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Admin - setup",
+      "item": [
+        {
+          "name": "Create category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/categories"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Technology\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Create editor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/editors"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Editor Person\",\n  \"email\": \"editor@example.com\",\n  \"editorName\": \"Tech News\",\n  \"editorDescription\": \"Technology news\"\n}"
+            }
+          }
+        },
+        {
+          "name": "List editors",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/editors"
+            }
+          }
+        },
+        {
+          "name": "Block editor",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/editors/{{editorId}}/block"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isBlocked\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Unblock editor",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/editors/{{editorId}}/block"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isBlocked\": false\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Editor",
+      "item": [
+        {
+          "name": "Editor profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/editors/me"
+            }
+          }
+        },
+        {
+          "name": "Update editor profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/editors/me"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"editorName\": \"Tech Daily\",\n  \"editorDescription\": \"Updated description\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Change temporary password",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/password"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"REPLACE_TEMP_PASSWORD\",\n  \"newPassword\": \"EditorPassword123!\"\n}"
+            }
+          }
+        },
+        {
+          "name": "My news",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/news/my",
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create draft",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/news"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"New technology announced\",\n  \"excerpt\": \"Обычный текст статьи до 5000 символов.\",\n  \"medias\": [\n    {\n      \"type\": \"image\",\n      \"url\": \"https://placehold.co/1200x630/png\"\n    }\n  ],\n  \"category\": \"{{categoryId}}\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update news",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/news/{{newsId}}"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"excerpt\": \"Обновлённый обычный текст статьи\",\n  \"medias\": [\n    {\n      \"type\": \"image\",\n      \"url\": \"https://placehold.co/1200x630/png\"\n    },\n    {\n      \"type\": \"video\",\n      \"url\": \"https://example.com/video.mp4\"\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Publish news",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/news/{{newsId}}/publish"
+            }
+          }
+        },
+        {
+          "name": "Unpublish news",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/news/{{newsId}}/unpublish"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Admin - news moderation",
+      "item": [
+        {
+          "name": "Admin news list",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/news",
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Set news draft",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/news/{{newsId}}/status"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"draft\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Set news published",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/news/{{newsId}}/status"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"published\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete news",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/news/{{newsId}}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Categories",
+      "item": [
+        {
+          "name": "List categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categories"
+            }
+          }
+        },
+        {
+          "name": "Update category",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/categories/{{categoryId}}"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Technology Updated\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete category",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/categories/{{categoryId}}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Uploads",
+      "item": [
+        {
+          "name": "Upload media",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "media",
+                  "type": "file",
+                  "src": "REPLACE_WITH_LOCAL_FILE"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/uploads/media"
+            }
+          }
+        },
+        {
+          "name": "Upload image for future Editor.js",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "REPLACE_WITH_LOCAL_FILE"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/uploads/image"
+            }
+          }
+        },
+        {
+          "name": "Delete media asset",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{editorToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/uploads/media/{{mediaId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "uploads",
+                "media",
+                "{{mediaId}}"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

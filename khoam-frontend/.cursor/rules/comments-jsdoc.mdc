@@ -1,0 +1,27 @@
+---
+description: Когда писать JSDoc и как комментировать
+globs: src/**/{helpers,hocs,hooks,libs,utils}/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Comments & JSDoc
+
+Обязательный JSDoc для **всех** экспортов в:
+
+- `helpers/`, `hocs/`, `hooks/`, `libs/`, `utils/`
+
+Даже если имя «очевидное».
+
+```ts
+/**
+ * Собирает URL с подстановкой path-параметров.
+ * @param template - шаблон вида `/products/:id`
+ * @param params - значения параметров
+ */
+export function createUrlWithParams(...) { ... }
+```
+
+В остальном коде:
+
+- Комментируй только неочевидный intent, edge cases, ограничения.
+- Не пиши комментарии вида «это объект пользователя» / «суммирует числа».

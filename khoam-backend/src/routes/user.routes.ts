@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import * as c from '../controllers/user.controller.js';
+import { requireAuth } from '../middleware/auth.middleware.js';
+import { validate } from '../middleware/validation.middleware.js';
+import { updateMeSchema, changePasswordSchema } from '../validators/user.validator.js';
+const router = Router();
+router.use(requireAuth);
+router.get('/me', c.getMe);
+router.patch('/me', validate(updateMeSchema), c.updateMe);
+router.patch('/me/password', validate(changePasswordSchema), c.changePassword);
+router.delete('/me', c.deleteMe);
+export default router;

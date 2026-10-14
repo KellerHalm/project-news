@@ -1,0 +1,11 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  max-width: 480px;
+  padding: 32px;
+  border: 1px solid var(--neutral-40);
+  border-radius: 20px;
+  background-color: var(--neutral-10);
+}

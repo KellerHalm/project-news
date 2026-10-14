@@ -1,0 +1,22 @@
+---
+description: Формы на RHF + Zod и controlled-поля из shared/ui
+globs: src/**/*{form,scheme,schema}*.{ts,tsx}
+alwaysApply: false
+---
+
+# Forms & validation
+
+- Схема Zod в `model/*.scheme.ts` (или shared schemas).
+- `useForm({ resolver: zodResolver(schema), ... })`.
+- Поля — через shared controlled-компоненты:  
+  `ControlledInput`, `ControlledPasswordInput`, `ControlledPhoneInput`, `ControlledTextarea`.
+- Сообщения Zod и тосты — на русском.
+- Маппинг submit: отдельная функция `to*SubmitValues` / mapper рядом со схемой (телефон, файлы, DTO).
+- Не пиши «голый» `<input>` в фичах, если уже есть shared Input/Controlled*.
+
+```ts
+const form = useForm<CreateProductFormValues>({
+  resolver: zodResolver(createProductSchema),
+  defaultValues: { ... }
+});
+```

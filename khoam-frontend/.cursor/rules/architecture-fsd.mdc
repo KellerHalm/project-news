@@ -1,0 +1,28 @@
+---
+description: FSD-слои, публичные API слайсов и размещение кода
+alwaysApply: true
+---
+
+# Architecture (FSD + Next App Router)
+
+```
+src/
+├── app/        # routes, layouts, providers, global store, styles
+├── entities/   # бизнес-сущности (карточки, модели отображения)
+├── features/   # пользовательские сценарии (auth, favorites, search…)
+├── widgets/    # крупные составные блоки UI
+└── shared/     # api, ui, hooks, helpers, constants, model, core, services
+```
+
+## Правила слоёв
+
+- Импорты только «вниз» по FSD: `app → widgets → features → entities → shared`.
+- Наружу слайса — только через **barrel** `index.ts`. Не импортируй внутренности чужого feature/entity глубокими путями.
+- Сегменты слайса: `ui/`, `model/`, `api/` (+ при необходимости `lib/`).
+- Логика, нужная **только одной странице**, может жить рядом с роутом:  
+  `app/(group)/route/{page.tsx,model/,ui/,api/}`.
+- Route groups: `(root)` — основной shell, `(auth)` — auth-shell.
+
+## Providers
+
+Складывай провайдеры через `composeProviders` в `app/providers`. Типичный порядок: QueryClient → Toaster → Auth.

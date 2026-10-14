@@ -1,0 +1,26 @@
+---
+description: Нейминг файлов, символов, Prettier и импорты
+alwaysApply: true
+---
+
+# Naming & formatting
+
+| Сущность | Формат | Пример |
+|----------|--------|--------|
+| Файлы / папки | kebab-case | `create-product-form.tsx` |
+| Компоненты (export) | PascalCase | `ShowcaseCard` |
+| Функции / переменные | camelCase | `getProductQueryOptions` |
+| Константы | SCREAMING_SNAKE | `TOKEN_KEY` |
+| Типы / интерфейсы | PascalCase | `ProductEntity`, `LoginResponse` |
+| Zod-схемы | `*Schema` | `createProductSchema` |
+| Значения форм | `*FormValues` | `CreateProductFormValues` |
+| Хуки | `use-*` файл / `use*` export | `use-auth.ts` → `useAuth` |
+| CSS modules | `*.module.scss`, классы camelCase | `card.module.scss` → `.card` |
+| Иконки | `*Icon` | `ArrowBackIcon` |
+
+## Format
+
+- Prettier: `printWidth 80`, `singleQuote`, **без** trailing comma, `semi`, `arrowParens: avoid`.
+- ESLint: `simple-import-sort` — не ломай порядок импортов вручную «как попало».
+- Предпочитай абсолютные импорты `@/…` между слоями; внутри слайса — относительные `./`.
+- Named exports + публичный `index.ts` слайса.
